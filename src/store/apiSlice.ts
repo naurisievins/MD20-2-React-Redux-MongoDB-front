@@ -14,6 +14,7 @@ export const apiSlice = createApi({
     }),
     getAnimalsBySpecies: builder.query({
       query: (speciesName) => `species/${speciesName}`,
+      providesTags: ["animals"],
     }),
     addAnimal: builder.mutation<void, Animal>({
       query: (post) => ({

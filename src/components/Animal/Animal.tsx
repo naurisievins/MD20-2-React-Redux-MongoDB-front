@@ -1,13 +1,14 @@
 import styles from './Animal.module.scss'
 import { useAppSelector } from '../../store/hooks'
 import { useGetAnimalsQuery, useGetAnimalsBySpeciesQuery } from '../../store/apiSlice'
+import { useEffect } from 'react'
 
 export default function Animal() {
 
   const { filterSpecies } = useAppSelector((state) => state.animals)
   const { data: animalsData } = useGetAnimalsQuery()
   const { data: filterBySpecies } = useGetAnimalsBySpeciesQuery(filterSpecies)
-  let filteredAnimals = animalsData;
+  let filteredAnimals = animalsData
 
   if (filterSpecies) {
     filteredAnimals = filterBySpecies
