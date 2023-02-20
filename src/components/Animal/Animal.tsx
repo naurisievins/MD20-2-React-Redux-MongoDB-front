@@ -1,24 +1,22 @@
 import styles from './Animal.module.scss'
-import { useAppSelector, useAppDispatch } from '../../store/hooks'
-import { Animal as AnimalType } from '../../store/animalSlice';
+import { useAppSelector } from '../../store/hooks'
+import { useGetAnimalsQuery, useGetAnimalsBySpeciesQuery } from '../../store/apiSlice'
 
 export default function Animal() {
 
-  const { animals, filterSpecies } = useAppSelector((state) => state.animals)
-  let filteredAnimals: AnimalType[];
+  const { filterSpecies } = useAppSelector((state) => state.animals)
+  const { data: animalsData } = useGetAnimalsQuery()
+  const { data: filterBySpecies } = useGetAnimalsBySpeciesQuery(filterSpecies)
+  let filteredAnimals = animalsData;
 
   if (filterSpecies) {
-    filteredAnimals = animals.filter(animal => {
-      return animal.species === filterSpecies;
-    })
-  } else {
-    filteredAnimals = animals
+    filteredAnimals = filterBySpecies
   }
 
   return (
     <>
-      {filteredAnimals.map(animal => (
-        <div className={styles.card} key={animal.id}>
+      {filteredAnimals && filteredAnimals.map(animal => (
+        <div className={styles.card} key={animal._id}>
           <div className={styles.card_img}>
             <img src={animal.imgLink} />
           </div>

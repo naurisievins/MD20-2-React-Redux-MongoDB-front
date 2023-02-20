@@ -1,30 +1,44 @@
 import styles from './Animals.module.scss'
-import { useAppSelector, useAppDispatch } from '../../store/hooks'
-import { setFilterSpecies } from '../../store/animalSlice'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { setFilterSpecies, setSpecies } from '../../store/animalSlice'
 import Animal from '../Animal/Animal'
-import AddAnimal from '../AddAnimal.tsx/AddAnimal'
+import AddAnimal from '../AddAnimal/AddAnimal'
 import { v4 as uuid } from 'uuid'
+import { useGetAnimalsQuery } from '../../store/apiSlice'
+import filterSpecies from '../../assets/util/filterSpecies'
+import validateSpecies from '../../assets/util/validateSpecies'
+import { useEffect } from 'react'
 
 export default function Animals() {
 
-  const { animals, filterSpecies, allSpecies } = useAppSelector((state) => state.animals)
   const dispatch = useAppDispatch()
+  const { data: animalsData, error, isLoading } = useGetAnimalsQuery()
+
+  useEffect(() => {
+    if (animalsData) {
+      let speciesArr = filterSpecies(animalsData)
+      speciesArr = speciesArr.map(ele => validateSpecies(ele))
+      dispatch(setSpecies(speciesArr))
+    }
+  }, [animalsData])
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.logo}>Add and sort animals by species</div>
       <AddAnimal />
-      {animals.length === 0 ?
+      {isLoading && <h3>Loading...</h3>}
+      {error && <h3>Error loading data.</h3>}
+      {(animalsData && animalsData.length === 0) ?
         (<span className={styles.info_span}>No animals added yet.</span>) :
         (
           <>
             <div className={styles.filter_container}>
               <div className={styles.filter_option}>
-                <span onClick={() => dispatch(setFilterSpecies(""))}>
+                <span onClick={() => dispatch(setFilterSpecies(null))}>
                   All
                 </span>
               </div>
-              {allSpecies.map(species => (
+              {animalsData && filterSpecies(animalsData).map(species => (
                 <div key={uuid()}
                   className={styles.filter_option}
                   onClick={() => dispatch(setFilterSpecies(species))}

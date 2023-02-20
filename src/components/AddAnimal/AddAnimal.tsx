@@ -1,24 +1,25 @@
 import styles from './AddAnimal.module.scss'
 import { useState } from 'react'
-import { useAppSelector, useAppDispatch } from '../../store/hooks'
-import { Animal, addAnimal } from '../../store/animalSlice'
+import { useAppSelector } from '../../store/hooks'
 import { v4 as uuid } from 'uuid';
-import isUrl from 'is-url';
+import { Animal } from "../../types/types";
+import { useAddAnimalMutation } from '../../store/apiSlice';
 
 export default function AddAnimal() {
 
   const initialAnimalObject: Animal = {
-    id: uuid(),
+    _id: uuid(),
     name: '',
     imgLink: '',
     species: ''
   }
+
   const [showAddForm, setShowAddForm] = useState(false)
-  const [invalidInput, setInvalidInput] = useState<boolean>()
+  const [invalidInput, setInvalidInput] = useState(false)
   const [showNewSpecies, setShowNewSpecies] = useState(false)
-  const { animals, allSpecies } = useAppSelector((state) => state.animals)
+  const { allSpecies } = useAppSelector((state) => state.animals)
   const [animalObject, setAnimalObject] = useState(initialAnimalObject)
-  const dispatch = useAppDispatch()
+  const [addAnimal] = useAddAnimalMutation()
 
   const validateNameAndSpecies = (input: string) => {
     let result = input.trim().toLowerCase()
@@ -33,7 +34,9 @@ export default function AddAnimal() {
   const handleFormSubmit = () => {
     if (validateNameAndSpecies(animalObject.name) &&
       validateNameAndSpecies(animalObject.species)) {
-      dispatch(addAnimal(animalObject))
+
+      addAnimal(animalObject)
+
       setInvalidInput(false)
       setAnimalObject(initialAnimalObject)
       setShowAddForm(false)
@@ -92,12 +95,19 @@ export default function AddAnimal() {
             )}
             {(Boolean(allSpecies.length) && !showNewSpecies) &&
               <select defaultValue=""
-                onChange={(e) => setAnimalObject({ ...animalObject, species: e.target.value })}
+                value={animalObject.species}
+                onChange={(e) => {
+                  console.log(animalObject);
+                  setAnimalObject({ ...animalObject, species: e.target.value })
+                }}
                 required
               >
                 <option value="" disabled hidden>Choose species</option>
                 {allSpecies.map(species => (
-                  <option key={uuid()}>{species}</option>
+                  <option key={uuid()}
+                    value={species}>
+                    {species}
+                  </option>
                 ))}
               </select>
             }
