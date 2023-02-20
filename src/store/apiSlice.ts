@@ -24,6 +24,13 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["animals"],
     }),
+    deleteAnimal: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `animals/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["animals"],
+    }),
   }),
 });
 
@@ -33,4 +40,5 @@ export const {
   useGetAnimalsBySpeciesQuery,
   useGetAnimalsQuery,
   useAddAnimalMutation,
+  useDeleteAnimalMutation,
 } = apiSlice;

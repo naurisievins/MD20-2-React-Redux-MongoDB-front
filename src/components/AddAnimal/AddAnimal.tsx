@@ -97,7 +97,6 @@ export default function AddAnimal() {
               <select defaultValue=""
                 value={animalObject.species}
                 onChange={(e) => {
-                  console.log(animalObject);
                   setAnimalObject({ ...animalObject, species: e.target.value })
                 }}
                 required
