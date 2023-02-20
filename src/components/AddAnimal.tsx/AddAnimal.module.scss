@@ -1,0 +1,52 @@
+.add_form {
+  display: flex;
+  gap: 10px;
+  padding: 20px;
+  flex-direction: column;
+  border: 2px solid rgb(48, 47, 47);
+  border-radius: 10px;
+  width: 30%;
+  background-color: rgba(209, 205, 205, 0.438);
+}
+
+.add_form > label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+}
+
+.add_form > label > span,  .add_form > label > div{
+  padding: 0 0 5px 10px;
+}
+
+.add_form > label > input, .add_form > label > select {
+  border-radius: 5px;
+  padding: 3px 5px;
+  border: 1px solid black;
+  font-weight: 400;
+}
+
+.species_link {
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.add_form > button {
+  margin-top: 20px;
+  border-radius: 10px;
+  border: 1px solid rgb(170, 166, 166);
+  background-color: rgb(85, 107, 84);
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+  &:hover {
+    border-color: white;
+    opacity: 0.8;
+  }
+}
+
+.error_msg {
+  padding: 5px;
+  border-radius: 7px;
+  background-color: rgb(145, 61, 61);
+}

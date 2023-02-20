@@ -1,0 +1,12 @@
+@import "assets/reset.scss"; /* Import reset.css */
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&display=swap');
+
+:root {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+body {
+  font-family: 'Lora', serif;
+  background-color: rgb(17, 17, 17);
+}

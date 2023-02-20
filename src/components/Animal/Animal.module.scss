@@ -1,0 +1,23 @@
+.card {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  background-color: rgb(194, 192, 192);
+  border-radius: 7px;
+  border: 2px solid rgb(71, 70, 70);
+}
+
+.card_img {
+  max-height: 200px;
+}
+
+.card_img > img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.card_name {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
