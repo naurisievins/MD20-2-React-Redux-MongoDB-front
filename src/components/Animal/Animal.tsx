@@ -1,6 +1,7 @@
 import styles from './Animal.module.scss'
-import { useAppSelector } from '../../store/hooks'
+import { useAppSelector, useAppDispatch } from '../../store/hooks'
 import { useGetAnimalsQuery, useGetAnimalsBySpeciesQuery, useDeleteAnimalMutation } from '../../store/apiSlice'
+import { setFilterSpecies } from '../../store/animalSlice'
 
 export default function Animal() {
 
@@ -9,6 +10,7 @@ export default function Animal() {
   const { data: filterBySpecies } = useGetAnimalsBySpeciesQuery(filterSpecies)
   const [deleteAnimal] = useDeleteAnimalMutation()
   let filteredAnimals = animalsData
+  const dispatch = useAppDispatch()
 
   if (filterSpecies) {
     filteredAnimals = filterBySpecies
@@ -20,9 +22,10 @@ export default function Animal() {
         <div className={styles.card} key={animal._id}>
           <div className={styles.delete_button}>
             <span onClick={() => {
-              console.log(animal._id)
               deleteAnimal(animal._id)
-            }}>
+              dispatch(setFilterSpecies(null))
+            }
+            }>
               x
             </span>
           </div>
